@@ -21,6 +21,7 @@ import { useLocation, NavLink } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
 import logo from "assets/img/reactlogo.png";
+import { preProcessFile } from "typescript";
 
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
@@ -54,7 +55,8 @@ function Sidebar({ color, image, routes }) {
         </div>
         <Nav>
           {routes.map((prop, key) => {
-            if (!prop.redirect)
+            console.log(prop)
+            if (!prop.redirect&&!prop.hide)
               return (
                 <li
                   className={

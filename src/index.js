@@ -25,6 +25,7 @@ import "./assets/css/animate.min.css";
 import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0";
 import "./assets/css/demo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import "./assets/scss/mystyle.scss"
 
 import AdminLayout from "layouts/Admin.js";
 

@@ -1,0 +1,14 @@
+.floderselected{
+    border: 2px solid rgb(128, 128, 128);
+    border-radius: 5px;
+    box-shadow: 10px 5px 5px #4b4b4b;
+    padding: 0 10px;
+    padding-top: 10px;
+    
+}
+.folder-container{
+    display: flex;
+    justify-content: space-around;
+    cursor: pointer;
+
+}

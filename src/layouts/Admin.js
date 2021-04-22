@@ -25,7 +25,8 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import sidebarImage from "assets/img/sidebar-3.jpg";
+import sidebarImage from "assets/img/sidebar-4.jpg";
+import Folder from "components/folder/Folder";
 
 function Admin() {
   const [image, setImage] = React.useState(sidebarImage);
@@ -38,7 +39,7 @@ function Admin() {
       if (prop.layout === "/admin") {
         return (
           <Route
-            path={prop.layout + prop.path}
+           exact path={prop.layout + prop.path}
             render={(props) => <prop.component {...props} />}
             key={key}
           />
@@ -68,7 +69,10 @@ function Admin() {
         <div className="main-panel" ref={mainPanel}>
           <AdminNavbar />
           <div className="content">
-            <Switch>{getRoutes(routes)}</Switch>
+            <Switch>
+            {getRoutes(routes)}
+            <Route path="admin/folders/:id" component={Folder} />
+            </Switch>
           </div>
           <Footer />
         </div>

@@ -23,6 +23,9 @@ import Icons from "views/Icons.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
+import FoldersList from "components/folder/FoldersList";
+import Addfolder from "components/folder/AddFolder";
+import Folder from "components/folder/Folder";
 
 const dashboardRoutes = [
   {
@@ -32,6 +35,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-alien-33",
     component: Upgrade,
     layout: "/admin",
+    hide:"yes",
   },
   {
     path: "/dashboard",
@@ -39,6 +43,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-chart-pie-35",
     component: Dashboard,
     layout: "/admin",
+    
   },
   {
     path: "/user",
@@ -46,6 +51,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-circle-09",
     component: UserProfile,
     layout: "/admin",
+    hide:"yes",
   },
   {
     path: "/table",
@@ -60,13 +66,15 @@ const dashboardRoutes = [
     icon: "nc-icon nc-paper-2",
     component: Typography,
     layout: "/admin",
+    hide:"yes",
   },
   {
-    path: "/icons",
+    path: "/icons", 
     name: "Icons",
     icon: "nc-icon nc-atom",
     component: Icons,
     layout: "/admin",
+    hide:"yes",
   },
   {
     path: "/maps",
@@ -74,6 +82,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-pin-3",
     component: Maps,
     layout: "/admin",
+    hide:"yes",
   },
   {
     path: "/notifications",
@@ -82,6 +91,29 @@ const dashboardRoutes = [
     component: Notifications,
     layout: "/admin",
   },
+  {
+    path: "/folder",
+    name: "folder",
+    icon: "nc-icon nc-chart-pie-35",
+    component: FoldersList,
+    layout: "/admin",
+  },
+  {
+    path: "/addFolder",
+    name: "add folder",
+    icon: "nc-icon nc-chart-pie-35",
+    component: Addfolder,
+    layout: "/admin",
+    hide:"yes",
+  },{
+
+  path: "/folder/:id",
+  name: "folder",
+  icon: "nc-icon nc-chart-pie-35",
+  component: Folder,
+  layout: "/admin",
+  hide:"yes",
+}
 ];
 
 export default dashboardRoutes;

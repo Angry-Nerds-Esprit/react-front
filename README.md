@@ -2,7 +2,7 @@
 ## Description
 
 
-
+Human ressources virtual assistant that manages to scrape profiles directly from linkedin and enables the user to organize them as they wish 
 
 
 ## Demo

@@ -26,15 +26,20 @@ import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0";
 import "./assets/css/demo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/mystyle.scss"
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 
-import AdminLayout from "layouts/Admin.js";
+import { store } from './_helpers';
+import {App} from './App/'
+import { configureFakeBackend } from './_helpers';
+
+configureFakeBackend();
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-  </BrowserRouter>,
+  <Provider store={store}>
+  <BrowserRouter> 
+   <App />
+  </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );

@@ -26,7 +26,7 @@ import { preProcessFile } from "typescript";
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
   const activeRoute = (routeName) => {
-    return location.pathname.indexOf(routeName) > -1 ? "active" : "";
+  return location.pathname.indexOf(routeName) > -1 ? "active" : "";
   };
   return (
     <div className="sidebar" data-image={image} data-color={color}>

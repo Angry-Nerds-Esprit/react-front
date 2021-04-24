@@ -26,6 +26,7 @@ import Upgrade from "views/Upgrade.js";
 import FoldersList from "components/folder/FoldersList";
 import Addfolder from "components/folder/AddFolder";
 import Folder from "components/folder/Folder";
+import ProfilesList from "components/Profiles/Profileslist";
 
 const dashboardRoutes = [
   {
@@ -112,7 +113,14 @@ const dashboardRoutes = [
   component: Folder,
   layout: "/admin",
   hide:"yes",
-}
+},
+{
+  path: "/profiles",
+  name: "Profiles",
+  icon: "nc-icon nc-atom",
+  component: ProfilesList,
+  layout: "/admin",
+},
 ];
 
 export default dashboardRoutes;

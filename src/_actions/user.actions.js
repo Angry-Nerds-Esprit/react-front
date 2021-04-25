@@ -12,6 +12,7 @@ export const userActions = {
 };
 
 function login(username, password, from) {
+    
     return dispatch => {
         dispatch(request({ username }));
 
@@ -36,6 +37,7 @@ function login(username, password, from) {
 }
 
 function logout() {
+    debugger;
     userService.logout();
     return { type: userConstants.LOGOUT };
 }

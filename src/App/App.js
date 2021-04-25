@@ -28,10 +28,15 @@ function App() {
     return (
          
         <Switch>
-        <Route path="/" exact component={LoginPage} />
+
+        <Route path="/login" exact component={LoginPage} />
         <Route path="/register" component={RegisterPage } />
-        <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-        <Redirect from="/" to="/admin/dashboard" />
+        <PrivateRoute  path="/admin" component={AdminLayout}  />
+
+      {/*  <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+       <Redirect from="*" to="/" />
+
+        <Redirect from="/" to="/admin/dashboard" />*/}
         </Switch>
           
     );

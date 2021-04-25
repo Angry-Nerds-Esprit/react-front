@@ -32,6 +32,7 @@ export function configureFakeBackend() {
             // route functions
 
             function authenticate() {
+                debugger;
                 const { username, password } = body;
                 const user = users.find(x => x.username === username && x.password === password);
                 if (!user) return error('Username or password is incorrect');

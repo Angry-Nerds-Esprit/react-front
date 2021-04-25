@@ -33,7 +33,6 @@ import { store } from './_helpers';
 import {App} from './App/'
 import { configureFakeBackend } from './_helpers';
 
-configureFakeBackend();
 
 ReactDOM.render(
   <Provider store={store}>

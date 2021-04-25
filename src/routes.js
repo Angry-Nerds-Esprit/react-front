@@ -120,7 +120,15 @@ const dashboardRoutes = [
   icon: "nc-icon nc-atom",
   component: ProfilesList,
   layout: "/admin",
+},{
+  path: "/profiles/:id",
+  name: "folder profiles ",
+  icon: "nc-icon nc-atom",
+  component: ProfilesList,
+  layout: "/admin",
+  hide:"yes"
 },
+
 ];
 
 export default dashboardRoutes;

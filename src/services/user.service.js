@@ -11,13 +11,14 @@ import { authHeader } from '../_helpers';
 };
 
 function login(username, password) {
+    debugger;
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`/users/authenticate`, requestOptions)
+    return fetch(`http://localhost:4000/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -28,6 +29,8 @@ function login(username, password) {
 }
 
 function logout() {
+    debugger;
+
     // remove user from local storage to log user out
     localStorage.removeItem('user');
 }
@@ -38,7 +41,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`/users`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:4000/users`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {
@@ -47,7 +50,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:4000/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -57,7 +60,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`/users/register`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:4000/users/register`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
@@ -67,7 +70,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetch(`http://localhost:4000/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -77,7 +80,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`http://localhost:4000/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

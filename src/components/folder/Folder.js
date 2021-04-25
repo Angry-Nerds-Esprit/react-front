@@ -11,6 +11,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import ProfilesList from "components/Profiles/Profileslist";
 
 const Folder = (props) => {
   const initialFolderState = {
@@ -88,12 +89,12 @@ const Folder = (props) => {
     <>
       <Container fluid>
         <Row>
-          <Col md="6">
+          <Col md="9">
 
-
+            <ProfilesList {...props} />
 
           </Col>
-          <Col md="6">
+          <Col md="3">
             {currentFolder ? (
               <div className="edit-form">
                 <h4>Folder</h4>

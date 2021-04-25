@@ -3,6 +3,9 @@ import http from "../http-common";
 const getAll = () => {
   return http.get("/profiles");
 };
+const getByFolder = (id) => {
+  return http.get(`/profiles/folder/${id}`);
+};
 
 const get = id => {
   return http.get(`/profiles/${id}`);
@@ -35,5 +38,6 @@ export default {
   update,
   remove,
   removeAll,
+  getByFolder,
   
 };

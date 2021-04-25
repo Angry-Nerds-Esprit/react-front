@@ -3,9 +3,13 @@ import ProfileService from "../../services/ProfileService";
 import { Link } from "react-router-dom";
 import "./Card.css";
 import Popup from "react-animated-popup";
+import { useParams } from "react-router-dom";
 
-const ProfilesList = () => {
+
+const ProfilesList = (props) => {
   const [profiles, setProfiles] = useState([]);
+  const [folderId, setFolderId] = useState();
+
   const [currentProfile, setCurrentProfile] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
@@ -28,7 +32,15 @@ const ProfilesList = () => {
     textAlign: "center",
   };
   useEffect(() => {
-    retrieveProfiles();
+    console.log(props.match.params);
+
+    if (props.match.params.id)
+    { 
+      retrieveProfilesByFolder(props.match.params.id)
+
+    }else{
+      retrieveProfiles();
+    }
   }, []);
 
   const onChangeSearchTitle = (e) => {
@@ -40,13 +52,21 @@ const ProfilesList = () => {
     ProfileService.getAll()
       .then((response) => {
         setProfiles(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const retrieveProfilesByFolder = (id) => {
+    ProfileService.getByFolder(id)
+      .then((response) => {
+        setProfiles(response.data);
         console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
-
   const refreshList = () => {
     retrieveProfiles();
     setCurrentProfile(null);
@@ -82,7 +102,7 @@ const ProfilesList = () => {
   };*/
 
   return (
-    <section id="team" class="pb-5">
+    <section id="team" className="pb-5">
 
       <div className="col-md-8">
         <div className="input-group mb-3">
@@ -103,16 +123,16 @@ const ProfilesList = () => {
           <div className="row">
             {profiles &&
               profiles.map((profile, index) => (
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                  <div class="box-part text-center">
+                <div key={index} className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                  <div className="box-part text-center">
                     <div className="font-icon-detail">
-                      <i class="nc-icon nc-single-02" aria-hidden="true"></i>
+                      <i className="nc-icon nc-single-02" aria-hidden="true"></i>
                     </div>
                     <div className="title">
                       <h4>{profile.personal_info.name}</h4>
                     </div>
 
-                    <div class="text">
+                    <div className="text">
                       <span>
                         Lorem ipsum dolor sit amet, id quo eruditi eloquentiam.
                         Assum decore te sed. Elitr scripta ocurreret qui ad.

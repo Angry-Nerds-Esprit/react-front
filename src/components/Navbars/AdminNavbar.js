@@ -198,11 +198,13 @@ function Header() {
               <Nav.Link
                 className="m-0"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                
+                as={NavLink}
+                to="/login"
           
-              ><NavLink to="/login">
+              >
                 <span className="no-icon">lgoout</span>
-              </NavLink>
+              
               </Nav.Link>
             </Nav.Item>
           </Nav>

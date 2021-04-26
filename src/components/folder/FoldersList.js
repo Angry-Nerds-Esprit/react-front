@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import folderDataService from "../../services/FolderService";
 import { Link ,useHistory } from "react-router-dom";
+import Fuse from 'fuse.js';
+
+
 
 const FoldersList = () => {
   const history = useHistory();
@@ -9,21 +12,31 @@ const FoldersList = () => {
   const [currentfolder, setCurrentfolder] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchFolderName, setSearchFolderName] = useState("");
-
+  const fuse = new Fuse(folders, {
+    keys: [
+      'folderName',
+      'description',
+      
+    ],includeScore: true
+  })
   useEffect(() => {
     retrievefolders();
+    
   }, []);
 
   const onChangeSearchFolderName = e => {
     const searchFolderName = e.target.value;
     setSearchFolderName(searchFolderName);
+    console.log(fuse.search(searchFolderName))
+    const result = searchFolderName ? fuse.search(searchFolderName).map(character => character.item) : retrievefolders();
+    setfolders( result)
+
   };
 
   const retrievefolders = () => {
     folderDataService.getAll()
       .then(response => {
         setfolders(response.data);
-        console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -41,16 +54,7 @@ const FoldersList = () => {
     setCurrentIndex(index);
   };
 
-  const removeAllfolders = () => {
-    folderDataService.removeAll()
-      .then(response => {
-        console.log(response.data);
-        refreshList();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+
   const   handleOnSubmit = (id) => {
  
     history.push(`folder/${id}`);
@@ -60,7 +64,6 @@ const FoldersList = () => {
     folderDataService.findByFolderName(searchFolderName)
       .then(response => {
         setfolders(response.data);
-        console.log(response.data);
       })
       .catch(e => {
         console.log(e);
@@ -114,12 +117,7 @@ const FoldersList = () => {
             ))}
         </div>
 
-        <button
-          className="m-3 btn btn-sm btn-danger"
-          onClick={removeAllfolders}
-        >
-          Remove All
-        </button>
+
       </div>
       <div className="col-md-3">
         {currentfolder ? (

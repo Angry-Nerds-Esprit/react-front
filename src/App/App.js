@@ -31,7 +31,10 @@ function App() {
 
         <Route path="/login" exact component={LoginPage} />
         <Route path="/register" component={RegisterPage } />
+        <Redirect exact from="/" to="/admin" />
         <PrivateRoute  path="/admin" component={AdminLayout}  />
+
+
 
       {/*  <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
        <Redirect from="*" to="/" />

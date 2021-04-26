@@ -32,7 +32,6 @@ const ProfilesList = (props) => {
     textAlign: "center",
   };
   useEffect(() => {
-    console.log(props.match.params);
 
     if (props.match.params.id)
     { 

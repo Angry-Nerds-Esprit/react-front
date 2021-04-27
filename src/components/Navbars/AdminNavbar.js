@@ -195,14 +195,16 @@ function Header() {
               </Dropdown.Menu>
             </Dropdown>
             <Nav.Item>
-              <Nav.Link
+            <Nav.Link
                 className="m-0"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                
+                as={NavLink}
+                to="/login"
           
-              ><NavLink to="/login">
-                <span className="no-icon">lgoout</span>
-              </NavLink>
+              >
+                <span className="no-icon">logout</span>
+              
               </Nav.Link>
             </Nav.Item>
           </Nav>

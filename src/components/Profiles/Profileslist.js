@@ -5,6 +5,7 @@ import "./Card.css";
 import Popup from "react-animated-popup";
 import { useParams } from "react-router-dom";
 import AdvancedFilter from "./AdvancedFilter";
+import { useHistory } from "react-router-dom";
 
 
 
@@ -12,7 +13,7 @@ const ProfilesList = (props) => {
   const [profiles, setProfiles] = useState([]);
   const [folderId, setFolderId] = useState();
   const componentIsMounted = useRef(true);
-
+  const history = useHistory();
 
   const [currentProfile, setCurrentProfile] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -43,7 +44,7 @@ const ProfilesList = (props) => {
           ) 
           
           &&
-        item.skills.filter(value =>  value.name.toLowerCase() == filterInput.skills.toLowerCase()
+        item.skills.filter(value =>  value.name.toLowerCase() === filterInput.skills.toLowerCase()
         )
           
       );
@@ -89,7 +90,9 @@ const profilesList = filterProfiles(profiles);
     }
   }, []);
 
-
+const  handleClick = (id) =>  {
+    history.push(`profile/${id}`);
+  }
 
   const retrieveProfiles = () => {
     ProfileService.getAll()
@@ -144,13 +147,14 @@ const profilesList = filterProfiles(profiles);
                       <i className="nc-icon nc-single-02" aria-hidden="true"></i>
                     </div>
                     <div className="title">
-                      <h4>{profile.personal_info.name}</h4>
+                      
+                      <a  onClick={() => handleClick(profile._id)} href=""><h4>{profile.personal_info.name}</h4></a>
                     </div>
 
                     <div className="text">
                       <span>
-                        Lorem ipsum dolor sit amet, id quo eruditi eloquentiam.
-                        Assum decore te sed. Elitr scripta ocurreret qui ad.
+                      <strong>{profile.personal_info.headline} </strong><br />
+                        Location :  {profile.personal_info.location}
                       </span>
                     </div>
 
@@ -209,9 +213,7 @@ const profilesList = filterProfiles(profiles);
                 ))}
               </div>
               <div>
-                <label>
-                  <strong>Experience :</strong>
-                </label>{" "}
+            
                 <div>
                   <b>Education :</b>
                   <br />
@@ -224,32 +226,17 @@ const profilesList = filterProfiles(profiles);
                     </span>
                   ))}
                 </div>
-                {/*<div>
-                  <b>Jobs :</b>
-
-                  {currentProfile.experiences.jobs.map((value) => (
-                    <div>
-                      {" "}
-                      <strong>Job :</strong> {value.title} ,{" "}
-                      <strong>Company :</strong> : {value.company}{" "}
-                    </div>
-                  ))}
-                  </div>*/}
+               
               </div>
 
-              <Link
-                to={"/profiles/" + currentProfile.id}
-                className="badge badge-warning"
-              >
-                Edit
-              </Link>
+              
             </div>
-          ) : (
+          ) : 
             <div>
               <br />
              
             </div>
-          )}
+          }
          
         </div>
         

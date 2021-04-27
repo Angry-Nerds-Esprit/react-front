@@ -1,19 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import ProfileService from "../../services/ProfileService";
 import { Link } from "react-router-dom";
 import "./Card.css";
 import Popup from "react-animated-popup";
 import { useParams } from "react-router-dom";
+import AdvancedFilter from "./AdvancedFilter";
+import { useHistory } from "react-router-dom";
+
 
 
 const ProfilesList = (props) => {
   const [profiles, setProfiles] = useState([]);
   const [folderId, setFolderId] = useState();
+  const componentIsMounted = useRef(true);
+  const history = useHistory();
 
   const [currentProfile, setCurrentProfile] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
   const [visible, setVisible] = useState(false);
+  const [filterInput, setFilterInput] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      name: "",
+      location: "",
+      skills: "",
+    
+
+    }
+  );
+  const filterProfiles = list => {
+    return list.filter(item => {
+      return (
+        item.personal_info.name
+          .toLowerCase()
+          .includes(
+              filterInput.name.toLowerCase()
+          ) &&
+        item.personal_info.location
+          .toLowerCase()
+          .includes(
+              filterInput.location.toLowerCase()
+          ) 
+          
+          &&
+        item.skills.filter(value =>  value.name.toLowerCase() === filterInput.skills.toLowerCase()
+        )
+          
+      );
+      
+    });
+  };
+
+const profilesList = filterProfiles(profiles);
+
+  const handleFilterProfiles= event => {
+    const { name, value } = event.target;
+    console.log(name,value);
+    setFilterInput({ [name]: value });
+    
+};
+
   const buttonStyle = {
     backgroundColor: "cadetblue",
     color: "#fff",
@@ -42,10 +89,9 @@ const ProfilesList = (props) => {
     }
   }, []);
 
-  const onChangeSearchTitle = (e) => {
-    const searchTitle = e.target.value;
-    setSearchTitle(searchTitle);
-  };
+const  handleClick = (id) =>  {
+    history.push(`profile/${id}`);
+  }
 
   const retrieveProfiles = () => {
     ProfileService.getAll()
@@ -78,63 +124,36 @@ const ProfilesList = (props) => {
     setVisible(!visible);
   };
 
-  const removeAllProfiles = () => {
-    ProfileService.removeAll()
-      .then((response) => {
-        console.log(response.data);
-        refreshList();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  /*const findByTitle = () => {
-    ProfileService.findByTitle(searchTitle)
-      .then(response => {
-        setProfiles(response.data);
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };*/
+  
 
   return (
     <section id="team" className="pb-5">
-
-      <div className="col-md-8">
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by title"
-            value={searchTitle}
-            onChange={onChangeSearchTitle}
-          />
-          <div className="input-group-append"></div>
-        </div>
-      </div>
+        
+        <AdvancedFilter  className="form-control"
+        searchValue={filterInput}
+        handleChangeValue={handleFilterProfiles}
+      />
+    
 
       <div className="row">
-        <h4>Profiles List</h4>
         <div className="container">
           <div className="row">
-            {profiles &&
-              profiles.map((profile, index) => (
+            {profilesList &&
+              profilesList.map((profile, index) => (
                 <div key={index} className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div className="box-part text-center">
                     <div className="font-icon-detail">
                       <i className="nc-icon nc-single-02" aria-hidden="true"></i>
                     </div>
                     <div className="title">
-                      <h4>{profile.personal_info.name}</h4>
+                      
+                      <a  onClick={() => handleClick(profile._id)} href=""><h4>{profile.personal_info.name}</h4></a>
                     </div>
 
                     <div className="text">
                       <span>
-                        Lorem ipsum dolor sit amet, id quo eruditi eloquentiam.
-                        Assum decore te sed. Elitr scripta ocurreret qui ad.
+                      <strong>{profile.personal_info.headline} </strong><br />
+                        Location :  {profile.personal_info.location}
                       </span>
                     </div>
 
@@ -153,12 +172,7 @@ const ProfilesList = (props) => {
               ))}
           </div>
         </div>
-        <button
-          className="m-3 btn btn-sm btn-danger"
-          onClick={removeAllProfiles}
-        >
-          Remove All
-        </button>
+       
       </div>
       <Popup visible={visible} onClose={() => setVisible(false)}>
       <div className="container">
@@ -198,9 +212,7 @@ const ProfilesList = (props) => {
                 ))}
               </div>
               <div>
-                <label>
-                  <strong>Experience :</strong>
-                </label>{" "}
+            
                 <div>
                   <b>Education :</b>
                   <br />
@@ -213,32 +225,17 @@ const ProfilesList = (props) => {
                     </span>
                   ))}
                 </div>
-                <div>
-                  <b>Jobs :</b>
-
-                  {currentProfile.experiences.jobs.map((value) => (
-                    <div>
-                      {" "}
-                      <strong>Job :</strong> {value.title} ,{" "}
-                      <strong>Company :</strong> : {value.company}{" "}
-                    </div>
-                  ))}
-                </div>
+               
               </div>
 
-              <Link
-                to={"/profiles/" + currentProfile.id}
-                className="badge badge-warning"
-              >
-                Edit
-              </Link>
+              
             </div>
-          ) : (
+          ) : 
             <div>
               <br />
              
             </div>
-          )}
+          }
          
         </div>
         

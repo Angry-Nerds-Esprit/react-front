@@ -27,7 +27,7 @@ import FoldersList from "components/folder/FoldersList";
 import Addfolder from "components/folder/AddFolder";
 import Folder from "components/folder/Folder";
 import ProfilesList from "components/Profiles/Profileslist";
-
+import Profile from "components/Profiles/Profile";
 const dashboardRoutes = [
   {
     upgrade: true,
@@ -125,6 +125,14 @@ const dashboardRoutes = [
   name: "folder profiles ",
   icon: "nc-icon nc-atom",
   component: ProfilesList,
+  layout: "/admin",
+  hide:"yes"
+},
+{
+  path: "/profile/:id",
+  name: "Profile",
+  icon: "nc-icon nc-atom",
+  component: Profile,
   layout: "/admin",
   hide:"yes"
 },

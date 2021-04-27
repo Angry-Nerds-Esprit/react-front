@@ -1,31 +1,33 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v2.0.0
-=========================================================
+import React, { useState, useRef } from "react";
 
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
+import Select from 'react-select'
 
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-/*eslint-disable*/
-import React, { Component } from "react";
-
-import { Dropdown, Badge, Button, Form } from "react-bootstrap";
+import { Dropdown, Badge, Button, Form, FormControl } from "react-bootstrap";
+import { useSelector  } from "react-redux";
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from "react-country-region-selector";
 
 import sideBarImage1 from "assets/img/sidebar-1.jpg";
 import sideBarImage2 from "assets/img/sidebar-2.jpg";
 import sideBarImage3 from "assets/img/sidebar-3.jpg";
 import sideBarImage4 from "assets/img/sidebar-4.jpg";
+import FolderService from "../../services/FolderService";
+import Folder from "components/folder/Folder";
+import scrappingService from "../../services/Scrapping";
+const options = [
+  { value: 'java', label: 'java' },
+  { value: 'python', label: 'python' },
+  { value: 'react', label: 'react' }, 
+   { value: 'node', label: 'node' }
 
+]
 function FixedPlugin({
+  hasload,
+  setHasLoad,
   hasImage,
   setHasImage,
   color,
@@ -33,21 +35,75 @@ function FixedPlugin({
   image,
   setImage,
 }) {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     classes: "dropdown show-dropdown open",
-  //     bg_checked: true,
-  //     bgImage: this.props.bgImage,
-  //   };
-  // }
-  // handleClick = () => {
-  //   this.props.handleFixedClick();
-  // };
-  // onChangeClick = () => {
-  //   this.props.handleHasImage(!this.state.bg_checked);
-  //   this.setState({ bg_checked: !this.state.bg_checked });
-  // };
+  const initialformstate = {
+    description: "",
+    folderName: "",
+    nbp: "",
+    country: "",
+    region: "",
+    skills:{}
+  };
+  const buttonRef = useRef();
+
+  const user = useSelector((state) => state.authentication.user);
+
+  const [form, setform] = useState(initialformstate);
+  const [showfolderForm, setshowfolderForm] = useState(false);
+
+
+  const selectCountry = (val) => {
+    setform({ ...form, country: val });
+  };
+
+  const selectRegion = (val) => {
+    setform({ ...form, region: val });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setform({ ...form, [name]: value });
+  };
+  const onchangeSkills =async(value)=>{
+    setform({ ...form,  skills: value });
+
+    
+  }
+  const startscrapping = async () => {
+    var skillsvalue = form.skills.map(function(item) {
+      return item['value'];
+    });
+    var data = {
+      folderName: form.folderName,
+      description: form.description,
+      country:form.country,
+      region: form.region,
+      nubmerofgooglePage: form.nbp / 10,
+      userid: user.id,
+      skills:skillsvalue
+    }; 
+    debugger;
+    setHasLoad();
+    buttonRef.current.disabled = true;
+    
+    const res = await FolderService.create(data);
+    
+
+    const myresult =await scrappingService.startScrapping(
+      
+      data.nubmerofgooglePage,
+      res.data._id,
+      data.userid,
+      data.skills,
+      data.region
+    );
+    buttonRef.current.disabled = false;
+     setHasLoad();
+  };
+  const toggleform =()=>{
+    setshowfolderForm(prev=>!prev)
+  };
+
   return (
     <div className="fixed-plugin">
       <Dropdown>
@@ -60,162 +116,91 @@ function FixedPlugin({
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <li className="adjustments-line d-flex align-items-center justify-content-between">
-            <p>Background Image</p>
+            <p>insert into folder</p>
+            <Form.Check
+              type="switch"
+              id="custom-switch-1"
+              onChange={toggleform}
+            />
+            
             <Form.Check
               type="switch"
               id="custom-switch-1-image"
-              checked={hasImage}
-              onChange={setHasImage}
+              checked={hasload}
+              onChange={setHasLoad}
             />
+            
           </li>
-          <li className="adjustments-line mt-3">
-            <p>Filters</p>
-            <div className="pull-right">
-              <Badge
-                variant="secondary"
-                className={color === "black" ? "active" : ""}
-                onClick={() => setColor("black")}
-              ></Badge>
-              <Badge
-                variant="azure"
-                className={color === "azure" ? "active" : ""}
-                onClick={() => setColor("azure")}
-              ></Badge>
-              <Badge
-                variant="green"
-                className={color === "green" ? "active" : ""}
-                onClick={() => setColor("green")}
-              ></Badge>
-              <Badge
-                variant="orange"
-                className={color === "orange" ? "active" : ""}
-                onClick={() => setColor("orange")}
-              ></Badge>
-              <Badge
-                variant="red"
-                className={color === "red" ? "active" : ""}
-                onClick={() => setColor("red")}
-              ></Badge>
-              <Badge
-                variant="purple"
-                className={color === "purple" ? "active" : ""}
-                onClick={() => setColor("purple")}
-              ></Badge>
-            </div>
-            <div className="clearfix"></div>
-          </li>
-          <li className="header-title">Sidebar Images</li>
-          <li className={image === sideBarImage1 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger d-block"
-              href="#pablo"
-              onClick={(e) => {
-                e.preventDefault();
-                setImage(sideBarImage1);
-              }}
-            >
-              <img alt="..." src={sideBarImage1}></img>
-            </a>
-          </li>
-          <li className={image === sideBarImage2 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger d-block"
-              href="#pablo"
-              onClick={(e) => {
-                e.preventDefault();
-                setImage(sideBarImage2);
-              }}
-            >
-              <img alt="..." src={sideBarImage2}></img>
-            </a>
-          </li>
-          <li className={image === sideBarImage3 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger d-block"
-              href="#pablo"
-              onClick={(e) => {
-                e.preventDefault();
-                setImage(sideBarImage3);
-              }}
-            >
-              <img alt="..." src={sideBarImage3}></img>
-            </a>
-          </li>
-          <li className={image === sideBarImage4 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger d-block"
-              href="#pablo"
-              onClick={(e) => {
-                e.preventDefault();
-                setImage(sideBarImage4);
-              }}
-            >
-              <img alt="..." src={sideBarImage4}></img>
-            </a>
-          </li>
-          <li className="button-container">
-            <div>
-              <Button
-                block
-                className="btn-fill"
-                href="http://www.creative-tim.com/product/light-bootstrap-dashboard-react"
-                rel="noopener noreferrer"
-                target="_blank"
-                variant="info"
-              >
-                Download, it's free!
-              </Button>
-            </div>
-          </li>
-          <li className="button-container">
-            <div>
-              <Button
-                block
-                className="btn-fill"
-                href="http://www.creative-tim.com/product/light-bootstrap-dashboard-react"
-                rel="noopener noreferrer"
-                target="_blank"
-                variant="default"
-              >
-                Checkout docs.
-              </Button>
-            </div>
-          </li>
+         {showfolderForm&& <>
+
+
+
+          <li className="header-title pro-title text-center">folder name</li>
+          <input
+            className="form-control"
+            value={form.folderName}
+            onChange={handleInputChange}
+            name="folderName"
+          ></input>
+          <li className="header-title pro-title text-center">description</li>
+          <input
+            className="form-control"
+            value={form.description}
+            onChange={handleInputChange}
+            name="description"
+          ></input>
+         </>}
+          <li className="header-title pro-title text-center">country</li>
+
+          <CountryDropdown
+            className="form-control"
+            value={form.country}
+            onChange={selectCountry}
+          />
+        <li className="header-title pro-title text-center">region</li>
+
+          <RegionDropdown
+            className="form-control"
+            disableWhenEmpty={true}
+            country={form.country}
+            value={form.region}
+            onChange={selectRegion}
+          />
+
+<li className="header-title pro-title text-center">skills</li>
+
+          <Select options={options} isMulti className="basic-multi-select" classNamePrefix="select" name="skills" onChange={onchangeSkills} />
+
           <li className="header-title pro-title text-center">
-            Want more components?
+            nembre of profiles
           </li>
+
+          <input
+            className="form-control"
+            type="number"
+            step="10"
+            min="10"
+            max="100"
+            value={form.nbp}
+            onChange={handleInputChange}
+            name="nbp"
+          ></input>
+
           <li className="button-container">
             <div>
               <Button
                 block
                 className="btn-fill"
-                href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro-react"
+                href=""
                 rel="noopener noreferrer"
                 target="_blank"
                 variant="primary"
+                ref={buttonRef}
+                onClick={startscrapping}
               >
-                Get The PRO Version!
+                Start
               </Button>
             </div>
-          </li>
-          <li className="header-title" id="sharrreTitle">
-            Thank you for sharing!
-          </li>
-          <li className="button-container mb-4">
-            <Button
-              className="btn-social btn-outline btn-round sharrre"
-              id="twitter"
-              variant="twitter"
-            >
-              <i className="fab fa-twitter"></i>· 256
-            </Button>
-            <Button
-              className="btn-social btn-outline btn-round sharrre"
-              id="facebook"
-              variant="facebook"
-            >
-              <i className="fab fa-facebook-square"></i>· 426
-            </Button>
           </li>
         </Dropdown.Menu>
       </Dropdown>

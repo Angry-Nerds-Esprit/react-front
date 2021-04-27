@@ -27,7 +27,6 @@ import FoldersList from "components/folder/FoldersList";
 import Addfolder from "components/folder/AddFolder";
 import Folder from "components/folder/Folder";
 import ProfilesList from "components/Profiles/Profileslist";
-import Scrapping from "components/scrapping/Scrapping";
 
 const dashboardRoutes = [
   {
@@ -129,14 +128,6 @@ const dashboardRoutes = [
   layout: "/admin",
   hide:"yes"
 },
- {
-path: "/scrapping",
-name: "scrapping",
-icon: "nc-icon nc-chart-pie-35",
-component: Scrapping,
-layout: "/admin",
-
-}
 
 ];
 

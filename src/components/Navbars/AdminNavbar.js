@@ -23,7 +23,7 @@ import {  NavLink } from "react-router-dom";
 
 import routes from "routes.js";
 
-function Header() {
+function Header({load}) {
   const location = useLocation();
   const mobileSidebarToggle = (e) => {
     e.preventDefault();
@@ -71,7 +71,7 @@ function Header() {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="nav mr-auto" navbar>
-            <Nav.Item>
+          { /* <Nav.Item>
               <Nav.Link
                 data-toggle="dropdown"
                 href="#pablo"
@@ -82,7 +82,7 @@ function Header() {
                 <span className="d-lg-none ml-1">Dashboard</span>
               </Nav.Link>
             </Nav.Item>
-            <Dropdown as={Nav.Item}>
+          <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 as={Nav.Link}
                 data-toggle="dropdown"
@@ -135,8 +135,15 @@ function Header() {
               >
                 <i className="nc-icon nc-zoom-split"></i>
                 <span className="d-lg-block"> Search</span>
-              </Nav.Link>
+
+                
+                
+                            </Nav.Link>
             </Nav.Item>
+         */ }  <Nav.Item>
+            {load!==""&&<><span className="no-icon">scrapping is working</span><img src={load} className="loadlogo" alt="load logo"/></>}  
+            </Nav.Item>
+
           </Nav>
           <Nav className="ml-auto" navbar>
             <Nav.Item>
@@ -148,53 +155,7 @@ function Header() {
                 <span className="no-icon">Account</span>
               </Nav.Link>
             </Nav.Item>
-            <Dropdown as={Nav.Item}>
-              <Dropdown.Toggle
-                aria-expanded={false}
-                aria-haspopup={true}
-                as={Nav.Link}
-                data-toggle="dropdown"
-                id="navbarDropdownMenuLink"
-                variant="default"
-                className="m-0"
-              >
-                <span className="no-icon">Dropdown</span>
-              </Dropdown.Toggle>
-              <Dropdown.Menu aria-labelledby="navbarDropdownMenuLink">
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Action
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Another action
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Something
-                </Dropdown.Item>
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Something else here
-                </Dropdown.Item>
-                <div className="divider"></div>
-                <Dropdown.Item
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Separated link
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <Nav.Item>
+          <Nav.Item>
               <Nav.Link
                 className="m-0"
                 href="#pablo"
@@ -203,7 +164,7 @@ function Header() {
                 to="/login"
           
               >
-                <span className="no-icon">lgoout</span>
+                <span className="no-icon">logout</span>
               
               </Nav.Link>
             </Nav.Item>

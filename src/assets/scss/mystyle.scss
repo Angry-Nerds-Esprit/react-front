@@ -5,10 +5,27 @@
     padding: 0 10px;
     padding-top: 10px;
     
+    
 }
 .folder-container{
+    
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: start;
     cursor: pointer;
+    gap:50px;
+    
 
+    .floder{
+        max-width: 70px;
+        width: 20%;
+        height: 100px;
+
+    }
+
+}
+
+
+.loadlogo{
+    height: 50px;
 }

@@ -23,7 +23,7 @@ import { Nav } from "react-bootstrap";
 import logo from "assets/img/reactlogo.png";
 import { preProcessFile } from "typescript";
 
-function Sidebar({ color, image, routes }) {
+function Sidebar({ color, image, routes  }) {
   const location = useLocation();
   const activeRoute = (routeName) => {
   return location.pathname.indexOf(routeName) > -1 ? "active" : "";

@@ -27,17 +27,21 @@ import routes from "routes.js";
 
 import sidebarImage from "assets/img/sidebar-4.jpg";
 import Folder from "components/folder/Folder";
-
+import myload from "assets/img/Preloader.svg"
 function Admin() {
+  const [hasLoad, setHasLoad] = React.useState(false);
+  const [hasImage, setHasImage] = React.useState(true);
   const [image, setImage] = React.useState(sidebarImage);
   const [color, setColor] = React.useState("black");
-  const [hasImage, setHasImage] = React.useState(true);
+  
+  
   const location = useLocation();
   const mainPanel = React.useRef(null);
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
+         
           <Route
            exact path={prop.layout + prop.path}
             render={(props) => <prop.component {...props} />}
@@ -67,7 +71,7 @@ function Admin() {
       <div className="wrapper">
         <Sidebar color={color} image={hasImage ? image : ""} routes={routes} />
         <div className="main-panel" ref={mainPanel}>
-          <AdminNavbar />
+          <AdminNavbar load={hasLoad ? myload : ""} />
           <div className="content">
             <Switch>
             {getRoutes(routes)}
@@ -80,6 +84,9 @@ function Admin() {
       <FixedPlugin
         hasImage={hasImage}
         setHasImage={() => setHasImage(!hasImage)}
+
+        setHasLoad={() => setHasLoad(!hasLoad)}
+
         color={color}
         setColor={(color) => setColor(color)}
         image={image}

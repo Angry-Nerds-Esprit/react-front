@@ -136,6 +136,14 @@ const dashboardRoutes = [
   layout: "/admin",
   hide:"yes"
 },
+{
+  path: "/folder/profile/:id",
+  name: "Profile",
+  icon: "nc-icon nc-atom",
+  component: Profile,
+  layout: "/admin",
+  hide:"yes"
+}
 
 ];
 

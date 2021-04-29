@@ -41,14 +41,18 @@ function FixedPlugin({
     nbp: "",
     country: "",
     region: "",
-    skills:{}
+    skills:{},
+    userNameAccount:"",
+    passowrdAccount:""
   };
   const buttonRef = useRef();
 
   const user = useSelector((state) => state.authentication.user);
 
   const [form, setform] = useState(initialformstate);
-  const [showfolderForm, setshowfolderForm] = useState(false);
+  const [showfolderForm, setshowfolderForm] = useState(true);
+  const [showAccountForm, setshowAccountForm] = useState(false);
+
 
 
   const selectCountry = (val) => {
@@ -80,28 +84,50 @@ function FixedPlugin({
       region: form.region,
       nubmerofgooglePage: form.nbp / 10,
       userid: user.id,
-      skills:skillsvalue
+      skills:skillsvalue,
+      userNameAccount: form.userNameAccount,
+      passowrdAccount:form.passowrdAccount
+      
     }; 
     debugger;
     setHasLoad();
-    buttonRef.current.disabled = true;
+   // buttonRef.current.disabled = true;
     
     const res = await FolderService.create(data);
     
+    if(!showAccountForm)
+    {
 
-    const myresult =await scrappingService.startScrapping(
-      
-      data.nubmerofgooglePage,
-      res.data._id,
-      data.userid,
-      data.skills,
-      data.region
-    );
-    buttonRef.current.disabled = false;
-     setHasLoad();
+      const myresult =await scrappingService.startScrapping(
+        
+        data.nubmerofgooglePage,
+        res.data._id,
+        data.userid,
+        data.skills,
+        data.region
+        );
+        
+      }else{
+        const myresult =await scrappingService.startScrappingChangeAccount(
+        
+          data.nubmerofgooglePage,
+          res.data._id,
+          data.userid,
+          data.skills,
+          data.region,
+          data.userNameAccount,
+          data.passowrdAccount
+          );
+
+      }
+      buttonRef.current.disabled = false;
+        setHasLoad();
   };
   const toggleform =()=>{
     setshowfolderForm(prev=>!prev)
+  };
+  const toggleformaccount =()=>{
+    setshowAccountForm(prev=>!prev)
   };
 
   return (
@@ -115,21 +141,56 @@ function FixedPlugin({
           <i className="fas fa-cogs fa-2x mt-1"></i>
         </Dropdown.Toggle>
         <Dropdown.Menu>
+        <li className="adjustments-line d-flex align-items-center justify-content-between">
+            <p>use default linkedin account</p>
+            <Form.Check
+              type="switch"
+              
+              id="custom-switch-1-acouunt"
+              onChange={toggleformaccount}
+            />
+            
+
+            
+          </li>
+          {showAccountForm&& <>
+
+
+
+<li className="header-title pro-title text-center">linkedin usernname</li>
+<input
+  className="form-control"
+  value={form.userNameAccount}
+  onChange={handleInputChange}
+  name="userNameAccount"
+></input>
+
+
+<li className="header-title pro-title text-center">linkedin  passowrd </li>
+<input
+  className="form-control"
+  value={form.passowrdAccount}
+  onChange={handleInputChange}
+  name="passowrdAccount"
+></input>
+</>}
+
           <li className="adjustments-line d-flex align-items-center justify-content-between">
             <p>insert into folder</p>
             <Form.Check
               type="switch"
               id="custom-switch-1"
+              defaultChecked={showfolderForm}
               onChange={toggleform}
             />
             
-            <Form.Check
+           {/* <Form.Check
               type="switch"
               id="custom-switch-1-image"
-              checked={hasload}
-              onChange={setHasLoad}
+              checked={/*hasload**//*}
+              onChange={/*setHasLoad*//*}
             />
-            
+           */ }
           </li>
          {showfolderForm&& <>
 
@@ -142,6 +203,8 @@ function FixedPlugin({
             onChange={handleInputChange}
             name="folderName"
           ></input>
+
+          
           <li className="header-title pro-title text-center">description</li>
           <input
             className="form-control"

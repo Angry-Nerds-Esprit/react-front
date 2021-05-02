@@ -28,6 +28,7 @@ import Addfolder from "components/folder/AddFolder";
 import Folder from "components/folder/Folder";
 import ProfilesList from "components/Profiles/Profileslist";
 import Profile from "components/Profiles/Profile";
+import Addrdv from "components/rdv/Addrdv";
 const dashboardRoutes = [
   {
     upgrade: true,
@@ -143,6 +144,13 @@ const dashboardRoutes = [
   component: Profile,
   layout: "/admin",
   hide:"yes"
+},
+{
+  path: "/addrdv",
+  name: "Add An Appointment",
+  icon: "nc-icon nc-chart-pie-35",
+  component: Addrdv,
+  layout: "/admin",
 }
 
 ];

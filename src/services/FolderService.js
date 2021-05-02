@@ -19,7 +19,9 @@ const update = (id, data) => {
 const remove = id => {
   return http.delete(`/folder/${id}`);
 };
-
+const addtofolder = (idprofile,idfolder) => {
+  return http.put(`/addfloder/${idprofile}/${idfolder}`);
+};
 const removeAll = () => {
   return http.delete(`/folder`);
 };
@@ -35,5 +37,6 @@ export default {
   update,
   remove,
   removeAll,
-  findByTitle
+  findByTitle,
+  addtofolder,
 };

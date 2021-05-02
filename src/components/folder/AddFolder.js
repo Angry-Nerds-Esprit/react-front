@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import folderDataService from "../../services/FolderService";
+import { useSelector } from "react-redux";
 
 const Addfolder = () => {
   const initialfolderstate = {
@@ -9,6 +10,8 @@ const Addfolder = () => {
     requete: "",
     userid: ""
   };
+  const user = useSelector((state) => state.authentication.user);
+
   const [folder, setfolder] = useState(initialfolderstate);
   const [submitted, setSubmitted] = useState(false);
 
@@ -23,7 +26,7 @@ const Addfolder = () => {
       folderName: folder.folderName,
       description: folder.description,
       requete:folder.requete,
-      userid:folder.userid
+      userid:user.id
     };
 
 
@@ -97,18 +100,7 @@ const Addfolder = () => {
               name="description"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="userid">userid</label>
-            <input
-              type="text"
-              className="form-control"
-              id="userid"
-              required
-              value={folder.userid}
-              onChange={handleInputChange}
-              name="userid"
-            />
-          </div>
+
 
 
           <button onClick={savefolder} className="btn btn-success">

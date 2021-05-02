@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import folderDataService from "../../services/FolderService";
 import { Link ,useHistory } from "react-router-dom";
 import Fuse from 'fuse.js';
+import Addfolder from "./AddFolder";
 
 
 
@@ -10,6 +11,8 @@ const FoldersList = () => {
 
   const [folders, setfolders] = useState([]);
   const [currentfolder, setCurrentfolder] = useState(null);
+  const [addForm, setaddForm] = useState(false);
+
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchFolderName, setSearchFolderName] = useState("");
   const fuse = new Fuse(folders, {
@@ -50,6 +53,7 @@ const FoldersList = () => {
   };
 
   const setActivefolder = (folder, index) => {
+    setaddForm(false);
     setCurrentfolder(folder);
     setCurrentIndex(index);
   };
@@ -70,6 +74,12 @@ const FoldersList = () => {
       });
   };
 
+  const toggleAddForm =()=>{
+    setActivefolder(false )
+    setaddForm(true);
+
+
+  }
   return (
     <div className="list row">
       <div className="col-md-8">
@@ -82,12 +92,29 @@ const FoldersList = () => {
             onChange={onChangeSearchFolderName}
           />
           <div className="input-group-append">
+
             <button
               className="btn btn-outline-secondary"
               type="button"
               onClick={findByFolderName}
             >
               Search
+            </button>
+                      {/*
+
+                        <Link
+              to={"folder/" + currentfolder._id}
+              className="badge badge-warning"
+            >
+              Edit
+            </Link>
+                      */}
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={() => toggleAddForm()}
+            >
+              +
             </button>
           </div>
         </div>
@@ -120,7 +147,7 @@ const FoldersList = () => {
 
       </div>
       <div className="col-md-3">
-        {currentfolder ? (
+        {currentfolder &&
           <div>
             <h4>folder</h4>
             <div>
@@ -152,12 +179,18 @@ const FoldersList = () => {
               Edit
             </Link>
           </div>
-        ) : (
+         
+        
+        
+          }{!currentfolder&&!addForm&&
           <div>
             <br />
             <p>Please click on a folder...</p>
           </div>
-        )}
+        }
+        {addForm&&<Addfolder></Addfolder>
+
+        }
       </div>
     </div>
   );

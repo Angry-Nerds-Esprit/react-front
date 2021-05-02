@@ -4,19 +4,15 @@ import Select from "react-select";
 
 import { Dropdown, Badge, Button, Form, FormControl } from "react-bootstrap";
 import { useSelector } from "react-redux";
+
 import {
   CountryDropdown,
   RegionDropdown,
   CountryRegionData,
 } from "react-country-region-selector";
+import FolderService from "services/FolderService";
+import Scrapping from "services/Scrapping";
 
-import sideBarImage1 from "assets/img/sidebar-1.jpg";
-import sideBarImage2 from "assets/img/sidebar-2.jpg";
-import sideBarImage3 from "assets/img/sidebar-3.jpg";
-import sideBarImage4 from "assets/img/sidebar-4.jpg";
-import FolderService from "../../services/FolderService";
-import Folder from "components/folder/Folder";
-import scrappingService from "../../services/Scrapping";
 const options = [
   { value: "java", label: "java" },
   { value: "python", label: "python" },
@@ -53,7 +49,6 @@ function FixedPlugin({
   const [submitted, setSubmitted] = useState(false);
   const [validated, setValidated] = useState(false);
 
-
   const selectCountry = (val) => {
     setform({ ...form, country: val });
   };
@@ -71,54 +66,56 @@ function FixedPlugin({
     setform({ ...form, skills: value });
   };
   const handleSubmit = async (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    setValidated(true);
-    /*var skillsvalue = form.skills.map(function (item) {
-      return item["value"];
-    });
-    var data = {
-      folderName: form.folderName,
-      description: form.description,
-      country: form.country,
-      region: form.region,
-      nubmerofgooglePage: form.nbp / 10,
-      userid: user.id,
-      skills: skillsvalue,
-      userNameAccount: form.userNameAccount,
-      passowrdAccount: form.passowrdAccount,
-    };
+    const formvalidation = event.currentTarget;
     debugger;
-    setHasLoad();
-    // buttonRef.current.disabled = true;
+    if (formvalidation.checkValidity() === false) {
+      event.preventDefault();
 
-    const res = await FolderService.create(data);
-
-    if (!showAccountForm) {
-      const myresult = await scrappingService.startScrapping(
-        data.nubmerofgooglePage,
-        res.data._id,
-        data.userid,
-        data.skills,
-        data.region
-      );
+      event.stopPropagation();
     } else {
-      const myresult = await scrappingService.startScrappingChangeAccount(
-        data.nubmerofgooglePage,
-        res.data._id,
-        data.userid,
-        data.skills,
-        data.region,
-        data.userNameAccount,
-        data.passowrdAccount
-      );
-    }*/
-    buttonRef.current.disabled = false;
-    setHasLoad();
+      event.preventDefault();
+      setValidated(true);
+      var skillsvalue = form.skills.map(function (item) {
+        return item["value"];
+      });
+      var data = {
+        folderName: form.folderName,
+        description: form.description,
+        country: form.country,
+        region: form.region,
+        nubmerofgooglePage: form.nbp / 10,
+        userid: user.id,
+        skills: skillsvalue,
+        userNameAccount: form.userNameAccount,
+        passowrdAccount: form.passowrdAccount,
+      };
+      setHasLoad();
+      // buttonRef.current.disabled = true;
+
+      const res = await FolderService.create(data);
+
+      if (!showAccountForm) {
+        const myresult = await Scrapping.startScrapping(
+          data.nubmerofgooglePage,
+          res.data._id,
+          data.userid,
+          data.skills,
+          data.region
+        );
+      } else {
+        const myresult = await Scrapping.startScrappingChangeAccount(
+          data.nubmerofgooglePage,
+          res.data._id,
+          data.userid,
+          data.skills,
+          data.region,
+          data.userNameAccount,
+          data.passowrdAccount
+        );
+      }
+      buttonRef.current.disabled = false;
+      setHasLoad();
+    }
   };
   const toggleform = () => {
     setshowfolderForm((prev) => !prev);
@@ -162,7 +159,6 @@ function FixedPlugin({
                     name="userNameAccount"
                     required={showAccountForm}
                   ></Form.Control>
-
                 </Form.Group>
                 <Form.Group controlId="formlinkedinpassowrd">
                   <Form.Label className="header-title pro-title text-center">
@@ -225,9 +221,9 @@ function FixedPlugin({
                     name="description"
                     required={showfolderForm}
                   ></Form.Control>
-                              <Form.Control.Feedback type="invalid">
-              Please make a description.
-            </Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Please make a description.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </>
             )}
@@ -241,7 +237,6 @@ function FixedPlugin({
                 value={form.country}
                 onChange={selectCountry}
                 required
-                
               />
             </Form.Group>
             <Form.Group controlId="formregion">

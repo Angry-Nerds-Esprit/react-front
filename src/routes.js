@@ -106,6 +106,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-chart-pie-35",
     component: Addfolder,
     layout: "/admin",
+    hide:"yes"
   },{
 
   path: "/folder/:id",

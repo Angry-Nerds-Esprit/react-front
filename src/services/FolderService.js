@@ -20,7 +20,10 @@ const remove = id => {
   return http.delete(`/folder/${id}`);
 };
 const addtofolder = (idprofile,idfolder) => {
-  return http.put(`/addfloder/${idprofile}/${idfolder}`);
+  return http.put(`/profiles/addfloder/${idprofile}/${idfolder}`);
+};
+const removefromfolder = (idprofile,idfolder) => {
+  return http.put(`/profiles/removreFolder/${idprofile}/${idfolder}`);
 };
 const removeAll = () => {
   return http.delete(`/folder`);
@@ -39,4 +42,5 @@ export default {
   removeAll,
   findByTitle,
   addtofolder,
+  removefromfolder,
 };

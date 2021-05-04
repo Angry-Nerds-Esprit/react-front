@@ -45,6 +45,9 @@ const Addfolder = () => {
       .catch(e => {
         console.log(e);
       });
+      window.location.reload(false);
+
+
   };
 
   const newfolder = () => {

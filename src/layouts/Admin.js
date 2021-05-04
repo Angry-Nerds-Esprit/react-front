@@ -30,7 +30,7 @@ import Folder from "components/folder/Folder";
 import myload from "assets/img/Preloader.svg"
 function Admin() {
   const [hasLoad, setHasLoad] = React.useState(false);
-  const [hasImage, setHasImage] = React.useState(true);
+  const [hasImage, setHasImage] = React.useState(false);
   const [image, setImage] = React.useState(sidebarImage);
   const [color, setColor] = React.useState("black");
   
@@ -78,7 +78,7 @@ function Admin() {
             <Route path="admin/folders/:id" component={Folder} />
             </Switch>
           </div>
-          <Footer />
+          
         </div>
       </div>
       <FixedPlugin

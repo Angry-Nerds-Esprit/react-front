@@ -20,6 +20,7 @@ const update = (id, data) => {
 };
 
 const remove = id => {
+  console.log(id)
   return http.delete(`/profiles/${id}`);
 };
 

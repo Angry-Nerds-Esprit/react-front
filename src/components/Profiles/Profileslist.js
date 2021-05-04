@@ -24,7 +24,7 @@ const ProfilesList = (props) => {
     {
       name: "",
       location: "",
-      skills: "",
+      job: "",
     
 
     }
@@ -44,8 +44,12 @@ const ProfilesList = (props) => {
           ) 
           
           &&
-        item.skills.filter(value =>  value.name.toLowerCase() === filterInput.skills.toLowerCase()
-        )
+          item.personal_info.headline
+          .toLowerCase()
+          .includes(
+              filterInput.job.toLowerCase()
+          )         
+       
           
       );
       

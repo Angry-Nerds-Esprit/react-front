@@ -11,7 +11,7 @@ const AdvancedFilter = ({ searchValue, handleChangeValue }) => (
       name="name"
       value={searchValue.name}
       onChange={(e) => handleChangeValue(e)}
-      placeholder="name"
+      placeholder="Name"
       className="search_input"
       autoFocus
     />
@@ -22,16 +22,16 @@ const AdvancedFilter = ({ searchValue, handleChangeValue }) => (
       name="location"
       value={searchValue.location}
       onChange={(e) => handleChangeValue(e)}
-      placeholder="location"
+      placeholder="Location"
       className="search_input"
     />
     <input
       data-testid="filter-input-population"
       type="text"
-      name="skills"
+      name="job"
       className="search_input"
-      placeholder="skills"
-      value={searchValue.skills}
+      placeholder="Job"
+      value={searchValue.job}
       onChange={(e) => handleChangeValue(e)}
     />
 

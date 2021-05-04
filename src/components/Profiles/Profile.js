@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import profileimg from "assets/img/profile.png";
 import "./profile.css";
 import Searchable from 'react-searchable-dropdown';
-
+import { useHistory } from "react-router-dom";
 import {
   Badge,
   Button,
@@ -27,7 +27,9 @@ const Profile = (props) => {
   const [currentProfile, setCurrentProfile] = useState(null);
   const [profile, setProfile] = useState();
   const [folders, setfolders] = useState([]);
-
+  const [visible, setVisible] = useState(false);
+  const [visible2, setVisible2] = useState(false);
+  const history = useHistory();
   useEffect(() => {
     retrievefolders();
     const data = ProfileService.get(props.match.params.id)
@@ -50,16 +52,48 @@ const Profile = (props) => {
       });
   };
  
+  const removeprofile = (idprofile) => {
+    ProfileService.remove(idprofile);
+    history.push("/admin/profiles");
+    
+    
+  }
+
+  const popupclick = () => {
+    
+    window.location.reload();
+  }
+
+
+  const pStyle = {
+    display: "flex",
+    textAlign: "center",
+    justifyContent: "center",
+  };
+
   const addprofiletofolder = (idfolder) => {
     folderDataService.addtofolder(profile._id , idfolder);
-    window.location.reload();
+    setVisible(!visible);
   }
   const delprofilefromfolder = (idfolder) => {
     folderDataService.removefromfolder(profile._id , idfolder);
-    window.location.reload();
+    setVisible2(!visible2);
   }
   return (
     <div className="container emp-profile">
+      <div >
+      <Popup visible={visible} onClose={() => setVisible(false)}>
+            <div style={pStyle}>Profile Added to folder</div>
+            <hr />
+            <div style={pStyle}><Button size="sm"  variant="success"  onClick={()=>popupclick()}>OK</Button></div>
+      </Popup>
+      <Popup visible={visible2} onClose={() => setVisible2(false)}>
+            <div style={pStyle}>Profile Removed from folder</div>
+            <hr />
+            <div style={pStyle}><Button size="sm"  variant="success"  onClick={()=>popupclick()}>OK</Button></div>
+      </Popup>
+      </div>
+     
       {profile ? (
         <form method="post">
           <div className="row">
@@ -95,18 +129,22 @@ const Profile = (props) => {
             </div>
 
             <div className="col-md-2">
+            
             <Dropdown>
-  <Dropdown.Toggle variant="success" id="dropdown-basic">
+  <Dropdown.Toggle variant="primary" id="dropdown-basic">
    Folder 
   </Dropdown.Toggle>
 
   <Dropdown.Menu>
     {
-      folders.map((folder,index )=><Dropdown.Item key={index}  >{folder.folderName }{profile.idFolder.includes(folder._id)?<Button className="dropbutton" variant="danger" size="sm" onClick={()=>delprofilefromfolder(folder._id)}>remove</Button>:<Button className="dropbutton" size="sm" onClick={()=>addprofiletofolder(folder._id)}>add</Button>}</Dropdown.Item>)
+      
+      folders.map((folder,index )=><Dropdown.Item key={index}  >{folder.folderName }{profile.idFolder.includes(folder._id)?<Button className="dropbutton" variant="danger" size="sm" onClick={()=>delprofilefromfolder(folder._id)}>remove</Button>:<Button variant="primary" className="dropbutton" size="sm" onClick={()=>addprofiletofolder(folder._id)}>Add</Button>}</Dropdown.Item>)
+      
     }
     
   </Dropdown.Menu>
 </Dropdown>
+
             </div>
           </div>
 
@@ -136,7 +174,7 @@ const Profile = (props) => {
                     {" "}
                     {profile.accomplishments.languages+" "} <br />{" "}
                   </span>
-               
+                  <Button size="sm"  variant="danger"  onClick={()=>removeprofile(profile._id)}>Remove Profile</Button>
               </div>
             </div>
             <div className="col-md-8">
@@ -224,6 +262,7 @@ const Profile = (props) => {
                      
                     </div>
                   </div>
+                  
                 </div>
                 
               </div>

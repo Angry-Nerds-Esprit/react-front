@@ -64,6 +64,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     component: TableList,
     layout: "/admin",
+    hide:"yes"
   },
   {
     path: "/typography",
@@ -95,6 +96,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-bell-55",
     component: Notifications,
     layout: "/admin",
+    hide:"yes"
   },
   {
     path: "/folder",
@@ -150,11 +152,12 @@ const dashboardRoutes = [
   hide:"yes"
 },
 {
-  path: "/addrdv",
+  path: "/addrdv/:id",
   name: "Add An Appointment",
   icon: "nc-icon nc-chart-pie-35",
   component: Addrdv,
   layout: "/admin",
+  hide:"yes"
 },
 {
   path: "/calender",

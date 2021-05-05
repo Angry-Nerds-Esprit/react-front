@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import rdvDataService from "../../services/rdvService";
 import { useSelector } from "react-redux";
+import ProfileService from "services/ProfileService";
 
-const Addrdv = () => {
+const Addrdv = (props) => {
   const initialrdvstate = {
     _id: null,
     rdvDate:"",
@@ -14,7 +15,8 @@ const Addrdv = () => {
   };
   const [rdv, setrdv] = useState(initialrdvstate);
   const [submitted, setSubmitted] = useState(false);
-  
+  const [profile, setProfile] = useState();
+
   const user = useSelector((state) => state.authentication.user);
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -22,6 +24,20 @@ const Addrdv = () => {
     setrdv({ ...rdv, [name]: value });
   };
 
+  useEffect(() => {
+      
+    console.log(props.match.params.id)
+     ProfileService.get(props.match.params.id)
+      .then((response) => {
+        setProfile(response.data);
+        console.log(response.data)
+        
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    
+  }, []);
   const saverdv = () => {
     var data = {
       rdvDate:rdv.rdvDate,
@@ -31,6 +47,8 @@ const Addrdv = () => {
       userid:user.id,
       profileId:rdv.profileId
     };
+
+
 
 
     rdvDataService.create(data)
@@ -58,6 +76,8 @@ const Addrdv = () => {
   };
 
   return (
+    
+
     <div className="submit-form">
       {submitted ? (
         <div>
@@ -67,20 +87,29 @@ const Addrdv = () => {
           </button>
         </div>
       ) : (
-        <div>
+        profile&&<div>
           <div className="form-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Name Your Appointment</label>
             <input
               type="text"
               className="form-control"
               id="name"
               required
-              value={rdv.name}
               onChange={handleInputChange}
               name="name"
             />
           </div>
-
+          <div className="form-group">
+            <label htmlFor="rdvDate">Date</label>
+            <input
+              type="Date"
+              className="form-control"
+              id="rdvDate"
+              required
+              onChange={handleInputChange}
+              name="rdvDate"
+            />
+          </div>
           <div className="form-group">
             <label htmlFor="note">Note</label>
             <input
@@ -93,43 +122,50 @@ const Addrdv = () => {
               name="note"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="rdvDate">Date</label>
-            <input
-              type="Date"
-              className="form-control"
-              id="rdvDate"
-              required
-              value={rdv.rdvDate}
-              onChange={handleInputChange}
-              name="rdvDate"
-            />
-          </div>
+         
           <div className="form-group">
             <label htmlFor="candidateName">Candidate Name</label>
             <input
               type="text"
               className="form-control"
               id="candidateName"
+              disabled
+              value={profile.personal_info.name}
               required
-              value={rdv.candidateName}
               onChange={handleInputChange}
               name="candidateName"
             />
           </div>
-
           <div className="form-group">
-            <label htmlFor="profileId">Profile Id</label>
+            <label htmlFor="headline">Candidate Name</label>
             <input
               type="text"
               className="form-control"
-              id="profileId"
+              id="candidateName"
+              disabled
+              value={profile.personal_info.headline}
               required
-              value={rdv.profileId}
+              onChange={handleInputChange}
+              name="headline"
+            />
+          </div>
+
+
+          <div className="form-group">
+
+            <input
+              type="text"
+              className="form-control"
+              hidden="true"
+              id="profileId"
+              value={profile._id}
+              required
               onChange={handleInputChange}
               name="profileId"
             />
           </div>
+
+          
 
 
           <button onClick={saverdv} className="btn btn-success">
@@ -138,6 +174,7 @@ const Addrdv = () => {
         </div>
       )}
     </div>
+  
   );
 };
 

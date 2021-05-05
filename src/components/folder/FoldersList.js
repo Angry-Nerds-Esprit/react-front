@@ -113,6 +113,7 @@ const FoldersList = () => {
               className="btn btn-outline-secondary"
               type="button"
               onClick={() => toggleAddForm()}
+              title="add folder"
             >
               +
             </button>

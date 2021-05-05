@@ -53,7 +53,9 @@ const Profile = (props) => {
         console.log(e);
       });
   };
- 
+  const   handleOnclickEvent = () => {
+    history.push(`/admin/addrdv/${profile._id}`);
+  }
   const removeprofile = (idprofile) => {
     ProfileService.remove(idprofile);
     history.push("/admin/profiles");
@@ -154,7 +156,7 @@ const Profile = (props) => {
   </Dropdown.Menu>
 </Dropdown>
 
-<Button onClick={()=>formPopup()}>Appointment</Button>
+<Button onClick={()=>handleOnclickEvent(profile._id)}>Appointment</Button>
 
             </div>
           </div>

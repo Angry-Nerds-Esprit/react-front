@@ -31,6 +31,9 @@ import Profile from "components/Profiles/Profile";
 import Addrdv from "components/rdv/Addrdv";
 import rdvList from "components/rdv/rdvList";
 import rdv from "components/rdv/rdv";
+import PDFcv  from "components/PDFcv/PDFcv";
+import PDFcvLList  from "components/PDFcv/PDFcvList";
+
 
 const dashboardRoutes = [
   {
@@ -173,6 +176,20 @@ const dashboardRoutes = [
   component: rdv,
   layout: "/admin",
   hide:"yes"
+},
+{
+  path: "/uploadPDF",
+  name: "Upload cv",
+  icon: "nc-icon nc-chart-pie-35",
+  component: PDFcv,
+  layout: "/admin",
+},
+{
+  path: "/PDFcvLList",
+  name: "list of Pdf Cv",
+  icon: "nc-icon nc-chart-pie-35",
+  component: PDFcvLList,
+  layout: "/admin",
 }
 
 

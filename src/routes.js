@@ -29,6 +29,9 @@ import Folder from "components/folder/Folder";
 import ProfilesList from "components/Profiles/Profileslist";
 import Profile from "components/Profiles/Profile";
 import Addrdv from "components/rdv/Addrdv";
+import rdvList from "components/rdv/rdvList";
+import rdv from "components/rdv/rdv";
+
 const dashboardRoutes = [
   {
     upgrade: true,
@@ -152,7 +155,23 @@ const dashboardRoutes = [
   icon: "nc-icon nc-chart-pie-35",
   component: Addrdv,
   layout: "/admin",
+},
+{
+  path: "/calender",
+  name: "calender",
+  icon: "nc-icon nc-chart-pie-35",
+  component: rdvList,
+  layout: "/admin",
+},
+{
+  path: "/rdv/:id",
+  name: "rdv",
+  icon: "nc-icon nc-chart-pie-35",
+  component: rdv,
+  layout: "/admin",
+  hide:"yes"
 }
+
 
 ];
 

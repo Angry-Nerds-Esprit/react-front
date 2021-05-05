@@ -22,6 +22,7 @@ import {
   Col,
 } from "react-bootstrap";
 import ProfilesList from "./Profileslist";
+import Addrdv from "components/rdv/Addrdv";
 
 const Profile = (props) => {
   const [currentProfile, setCurrentProfile] = useState(null);
@@ -29,6 +30,7 @@ const Profile = (props) => {
   const [folders, setfolders] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
+  const [visible3, setVisible3] = useState(false);
   const history = useHistory();
   useEffect(() => {
     retrievefolders();
@@ -63,6 +65,10 @@ const Profile = (props) => {
     
     window.location.reload();
   }
+  const formPopup = () => {
+    
+    setVisible3(true);
+  }
 
 
   const pStyle = {
@@ -91,6 +97,9 @@ const Profile = (props) => {
             <div style={pStyle}>Profile Removed from folder</div>
             <hr />
             <div style={pStyle}><Button size="sm"  variant="success"  onClick={()=>popupclick()}>OK</Button></div>
+      </Popup>
+      <Popup visible={visible3} onClose={() => setVisible3(false)}>
+            <Addrdv/>  
       </Popup>
       </div>
      
@@ -144,6 +153,8 @@ const Profile = (props) => {
     
   </Dropdown.Menu>
 </Dropdown>
+
+<Button onClick={()=>formPopup()}>Appointment</Button>
 
             </div>
           </div>

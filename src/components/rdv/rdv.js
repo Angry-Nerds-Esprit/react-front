@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FolderDataService from "../../services/FolderService";
+
 import {
   Badge,
   Button,
@@ -11,24 +12,26 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import ProfilesList from "components/Profiles/Profileslist";
+import rdvService from "services/rdvService";
 
-const Folder = (props) => {
+const Rdv = (props) => {
   const initialFolderState = {
-    id: null,
-    folderName: "",
-    description:"",
-    requete: "",
+    _id: null,
+    rdvDate:"",
+    note: "",
+    name: "",
     userid: "",
+    candidateName:"",
+    profileId:""
   };
 
-  const [currentFolder, setCurrentFolder] = useState(initialFolderState);
+  const [currentRdv, setCurrentRdv] = useState(initialFolderState);
   const [message, setMessage] = useState("");
 
-  const getFolder = (id) => {
-    FolderDataService.get(id)
+  const getRdv = (id) => {
+    rdvService.get(id)
       .then((response) => {
-        setCurrentFolder(response.data);
+        setCurrentRdv(response.data);
         console.log(response.data);
       })
       .catch((e) => {
@@ -37,25 +40,26 @@ const Folder = (props) => {
   };
 
   useEffect(() => {
-    getFolder(props.match.params.id);
+    getRdv(props.match.params.id);
   }, [props.match.params.id]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setCurrentFolder({ ...currentFolder, [name]: value });
+    setCurrentRdv({ ...currentRdv, [name]: value });
   };
 
   const updatePublished = (status) => {
     var data = {
-      id: currentFolder.id,
-      folderName: currentFolder.folderName,
-      description: currentFolder.description,
+      id: currentRdv.id,
+      rdvDate:currentRdv.rdvDate,
+      note: currentRdv.note,
+      name: currentRdv.name,
       published: status,
     };
 
-    FolderDataService.update(currentFolder.id, data)
+    rdvService.update(currentRdv.id, data)
       .then((response) => {
-        setCurrentFolder({ ...currentFolder, published: status });
+        setCurrentRdv({ ...currentRdv, published: status });
         console.log(response.data);
       })
       .catch((e) => {
@@ -63,22 +67,22 @@ const Folder = (props) => {
       });
   };
 
-  const updateFolder = () => {
-    FolderDataService.update(currentFolder.id, currentFolder)
+  const updateRdv = () => {
+    rdvService.update(currentRdv._id, currentRdv)
       .then((response) => {
         console.log(response.data);
-        setMessage("The Folder was updated successfully!");
+        setMessage("The Appointment was updated successfully!");
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const deleteFolder = () => {
-    FolderDataService.remove(currentFolder.id)
+  const deleteRdv = () => {
+    rdvService.remove(currentRdv._id)
       .then((response) => {
         console.log(response.data);
-        props.history.push("/Folders");
+        props.history.push("/admin/calender");
       })
       .catch((e) => {
         console.log(e);
@@ -91,33 +95,33 @@ const Folder = (props) => {
         <Row>
           <Col md="9">
 
-            <ProfilesList {...props} />
+         
 
           </Col>
           <Col md="3">
-            {currentFolder ? (
+            {currentRdv ? (
               <div className="edit-form">
-                <h4>Folder</h4>
+                <h4>Appointment</h4>
                 <form>
                   <div className="form-group">
-                    <label htmlFor="folderName">folderName</label>
+                    <label htmlFor="name">Appointment Name</label>
                     <input
                       type="text"
                       className="form-control"
-                      id="folderName"
-                      name="folderName"
-                      value={currentFolder.folderName}
+                      id="name"
+                      name="name"
+                      value={currentRdv.name}
                       onChange={handleInputChange}
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="Note">Note</label>
                     <input
                       type="text"
                       className="form-control"
-                      id="description"
-                      name="description"
-                      value={currentFolder.description}
+                      id="note"
+                      name="note"
+                      value={currentRdv.note}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -126,11 +130,11 @@ const Folder = (props) => {
                     <label>
                       <strong>Status:</strong>
                     </label>
-                    {currentFolder.published ? "Published" : "Pending"}
+                    {currentRdv.published ? "Published" : "Pending"}
                   </div>
                 </form>
 
-                {currentFolder.published ? (
+                {currentRdv.published ? (
                   <button
                     className="badge badge-primary mr-2"
                     onClick={() => updatePublished(false)}
@@ -148,7 +152,7 @@ const Folder = (props) => {
 
                 <button
                   className="badge badge-danger mr-2"
-                  onClick={deleteFolder}
+                  onClick={deleteRdv}
                 >
                   Delete
                 </button>
@@ -156,7 +160,7 @@ const Folder = (props) => {
                 <button
                   type="submit"
                   className="badge badge-success"
-                  onClick={updateFolder}
+                  onClick={updateRdv}
                 >
                   Update
                 </button>
@@ -165,7 +169,6 @@ const Folder = (props) => {
             ) : (
               <div>
                 <br />
-                <p>Please click on a Folder...</p>
               </div>
             )}
           </Col>
@@ -175,4 +178,4 @@ const Folder = (props) => {
   );
 };
 
-export default Folder;
+export default Rdv;

@@ -29,8 +29,17 @@ import Folder from "components/folder/Folder";
 import ProfilesList from "components/Profiles/Profileslist";
 import Profile from "components/Profiles/Profile";
 import Addrdv from "components/rdv/Addrdv";
+<<<<<<< HEAD
 import PDFcv  from "components/PDFcv/PDFcv";
 import PDFcvLList  from "components/PDFcv/PDFcvList";
+=======
+import rdvList from "components/rdv/rdvList";
+import rdv from "components/rdv/rdv";
+import PDFcv  from "components/PDFcv/PDFcv";
+import PDFcvLList  from "components/PDFcv/PDFcvList";
+
+
+>>>>>>> 5339ebbbe08f1ca7fa7271cf47aeab13c78ae101
 const dashboardRoutes = [
   {
     upgrade: true,
@@ -63,6 +72,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     component: TableList,
     layout: "/admin",
+    hide:"yes"
   },
   {
     path: "/typography",
@@ -94,6 +104,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-bell-55",
     component: Notifications,
     layout: "/admin",
+    hide:"yes"
   },
   {
     path: "/folder",
@@ -149,11 +160,30 @@ const dashboardRoutes = [
   hide:"yes"
 },
 {
-  path: "/addrdv",
+  path: "/addrdv/:id",
   name: "Add An Appointment",
   icon: "nc-icon nc-chart-pie-35",
   component: Addrdv,
   layout: "/admin",
+<<<<<<< HEAD
+=======
+  hide:"yes"
+},
+{
+  path: "/calender",
+  name: "calender",
+  icon: "nc-icon nc-chart-pie-35",
+  component: rdvList,
+  layout: "/admin",
+},
+{
+  path: "/rdv/:id",
+  name: "rdv",
+  icon: "nc-icon nc-chart-pie-35",
+  component: rdv,
+  layout: "/admin",
+  hide:"yes"
+>>>>>>> 5339ebbbe08f1ca7fa7271cf47aeab13c78ae101
 },
 {
   path: "/uploadPDF",
@@ -169,6 +199,11 @@ const dashboardRoutes = [
   component: PDFcvLList,
   layout: "/admin",
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 5339ebbbe08f1ca7fa7271cf47aeab13c78ae101
 ];
 
 export default dashboardRoutes;

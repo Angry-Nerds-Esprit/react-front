@@ -11,9 +11,13 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import NotificationAlert from "react-notification-alert";
+
 import ProfilesList from "components/Profiles/Profileslist";
 
 const Folder = (props) => {
+  const notificationAlertRef = React.useRef(null);
+
   const initialFolderState = {
     id: null,
     folderName: "",
@@ -24,6 +28,69 @@ const Folder = (props) => {
 
   const [currentFolder, setCurrentFolder] = useState(initialFolderState);
   const [message, setMessage] = useState("");
+  const notify = (place ,typee) => {
+    var color=1
+    var options = {};
+    if (typee=="update"){
+      color=4
+      
+      options = {
+        place: place,
+        message: (
+          <div>
+          <div>
+            folder <b>updated</b> - a beautiful
+            freebie for every web developer.
+          </div>
+        </div>
+      ),
+      type: type,
+      icon: "nc-icon nc-bell-55",
+      autoDismiss: 7,
+    };
+  }
+  if (typee=="remove"){
+    color=3
+      
+    options = {
+      place: place,
+      message: (
+        <div>
+        <div>
+          folder <b>removed</b> - a beautiful
+          freebie for every web dr.evelope
+        </div>
+      </div>
+    ),
+    type: type,
+    icon: "nc-icon nc-bell-55",
+    autoDismiss: 7,
+  };
+  }
+    var type;
+    switch (color) {
+      case 1:
+        type = "primary";
+        break;
+      case 2:
+        type = "success";
+        break;
+      case 3:
+        type = "danger";
+        break;
+      case 4:
+        type = "warning";
+        break;
+      case 5:
+        type = "info";
+        break;
+      default:
+        break;
+    }
+  
+  
+    notificationAlertRef.current.notificationAlert(options);
+  };
 
   const getFolder = (id) => {
     FolderDataService.get(id)
@@ -45,28 +112,13 @@ const Folder = (props) => {
     setCurrentFolder({ ...currentFolder, [name]: value });
   };
 
-  const updatePublished = (status) => {
-    var data = {
-      id: currentFolder.id,
-      folderName: currentFolder.folderName,
-      description: currentFolder.description,
-      published: status,
-    };
 
-    FolderDataService.update(currentFolder.id, data)
-      .then((response) => {
-        setCurrentFolder({ ...currentFolder, published: status });
-        console.log(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
   const updateFolder = () => {
-    FolderDataService.update(currentFolder.id, currentFolder)
+    FolderDataService.update(currentFolder._id, currentFolder)
       .then((response) => {
         console.log(response.data);
+        notify("tc","update")
         setMessage("The Folder was updated successfully!");
       })
       .catch((e) => {
@@ -75,10 +127,11 @@ const Folder = (props) => {
   };
 
   const deleteFolder = () => {
-    FolderDataService.remove(currentFolder.id)
+    FolderDataService.remove(currentFolder._id)
       .then((response) => {
         console.log(response.data);
-        props.history.push("/Folders");
+        notify("tc","remove")
+        props.history.push("/admin/folder");
       })
       .catch((e) => {
         console.log(e);
@@ -87,6 +140,9 @@ const Folder = (props) => {
 
   return (
     <>
+          <div className="rna-container">
+        <NotificationAlert ref={notificationAlertRef} />
+      </div>
       <Container fluid>
         <Row>
           <Col md="9">
@@ -122,29 +178,8 @@ const Folder = (props) => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label>
-                      <strong>Status:</strong>
-                    </label>
-                    {currentFolder.published ? "Published" : "Pending"}
-                  </div>
                 </form>
 
-                {currentFolder.published ? (
-                  <button
-                    className="badge badge-primary mr-2"
-                    onClick={() => updatePublished(false)}
-                  >
-                    UnPublish
-                  </button>
-                ) : (
-                  <button
-                    className="badge badge-primary mr-2"
-                    onClick={() => updatePublished(true)}
-                  >
-                    Publish
-                  </button>
-                )}
 
                 <button
                   className="badge badge-danger mr-2"

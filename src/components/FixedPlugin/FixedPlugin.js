@@ -80,6 +80,7 @@ function FixedPlugin({
       });
       var data = {
         folderName: form.folderName,
+        requete:form.qeury,
         description: form.description,
         country: form.country,
         region: form.region,
@@ -138,7 +139,7 @@ function FixedPlugin({
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="formsetlinkedin">
               <li className="adjustments-line d-flex align-items-center justify-content-between">
-                <Form.Label>use default linkedin account</Form.Label>
+                <Form.Label>use your linkedin account</Form.Label>
                 <Form.Check
                   type="switch"
                   id="custom-switch-1-acouunt"

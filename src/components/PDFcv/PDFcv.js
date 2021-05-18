@@ -31,6 +31,20 @@ const ImageUpload = () => {
         console.log(error.response)
     });
 
+     Axios({
+      url: 'http://localhost:4000/api/pdfdownload',
+      method: 'GET',
+      responseType: 'blob', // important
+      headers: authHeader(),
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.pdf');
+      document.body.appendChild(link);
+      link.click();
+    });
+
   }
 
   

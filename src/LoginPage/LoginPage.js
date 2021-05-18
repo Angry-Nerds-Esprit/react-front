@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../_actions';
+import sonichr from "assets/img/sonichr.png";
+import "./login.css";
+
 
 function LoginPage() {
     const [inputs, setInputs] = useState({
@@ -36,32 +39,48 @@ function LoginPage() {
     }
 
     return (
-        <div className="col-lg-8 offset-lg-2">
-            <h2>Login</h2>
-            <form name="form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" value={username} onChange={handleChange} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
+        <div className="auth-wrapper">
+          
+        <div className="auth-inner">
+            <form name="formLogin" onSubmit={handleSubmit}>
+            <div className="logoApp">
+              <img
+                src={require("assets/img/sonichr.png").default}
+                alt="..."
+              /> 
+            </div>
+                <div className="form-group-loginHR" >
+                    
+                <label>Username</label> <input type="text" id="InputLogin" name="username" value={username} onChange={handleChange} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
                     {submitted && !username &&
                         <div className="invalid-feedback">Username is required</div>
                     }
                 </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+                <div className="form-group-loginHR">
+                    <label id="labelPass">Password</label>
+                    <input type="password" name="password" id="InputLogin" value={password} onChange={handleChange} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
                     {submitted && !password &&
                         <div className="invalid-feedback">Password is required</div>
                     }
                 </div>
-                <div className="form-group">
-                    <button className="btn btn-primary">
+                <div className="form-group-loginHR">
+                    <button className="btnS">
                         {loggingIn && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                        Login
+                        Sign-In
                     </button>
-                    <Link to="/register" className="btn btn-link">Register</Link>
                 </div>
-            </form>
-        </div>
+
+               <br/>
+               <br/>
+               
+       <p className="forgot-password text-right">
+                    Don't have an account ? <a href="/register">Sign-Up ?</a>
+                </p>     
+                  
+            </form>        
+</div>
+</div>
+           
     );
 }
 

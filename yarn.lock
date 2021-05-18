@@ -4319,6 +4319,13 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+custom-input@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/custom-input/-/custom-input-0.4.0.tgz#977be5d3282e5e9e7db4ceac31628e7ee21cf06c"
+  integrity sha512-JhN3r8SjS1L1YxIBHWZlzySViaO+OvhYWM+0PxUTQnjtJRXAwpMp7YYA26f6DHNT/COhQ+saJqtMr0XWr0j23g==
+  dependencies:
+    event-lite "^0.1.2"
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
@@ -5185,6 +5192,11 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+event-lite@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/event-lite/-/event-lite-0.1.2.tgz#838a3e0fdddef8cc90f128006c8e55a4e4e4c11b"
+  integrity sha512-HnSYx1BsJ87/p6swwzv+2v6B4X+uxUteoDfRxsAb1S1BePzQqOLevVmkdA15GHJVd9A9Ok6wygUR18Hu0YeV9g==
 
 eventemitter3@^4.0.0:
   version "4.0.7"

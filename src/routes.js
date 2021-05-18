@@ -29,6 +29,8 @@ import Folder from "components/folder/Folder";
 import ProfilesList from "components/Profiles/Profileslist";
 import Profile from "components/Profiles/Profile";
 import Addrdv from "components/rdv/Addrdv";
+import PDFcv  from "components/PDFcv/PDFcv";
+import PDFcvLList  from "components/PDFcv/PDFcvList";
 const dashboardRoutes = [
   {
     upgrade: true,
@@ -152,8 +154,21 @@ const dashboardRoutes = [
   icon: "nc-icon nc-chart-pie-35",
   component: Addrdv,
   layout: "/admin",
+},
+{
+  path: "/uploadPDF",
+  name: "Upload cv",
+  icon: "nc-icon nc-chart-pie-35",
+  component: PDFcv,
+  layout: "/admin",
+},
+{
+  path: "/PDFcvLList",
+  name: "list of Pdf Cv",
+  icon: "nc-icon nc-chart-pie-35",
+  component: PDFcvLList,
+  layout: "/admin",
 }
-
 ];
 
 export default dashboardRoutes;
